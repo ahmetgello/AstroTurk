@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Vector3 fallPosition;
 
-    [SerializeField] private float mySpeed;
     [SerializeField] private float jumpSpeed;
 
     private Rigidbody2D rb;
@@ -43,6 +42,10 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private GameObject shootButton;
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] footsteps;
+    [SerializeField] private AudioClip jumpEndSound;
+    [SerializeField] private AudioClip jumpSound;
 
     void Start()
     {
@@ -56,12 +59,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        //pc
         myPosition.x = Input.GetAxisRaw("Horizontal");
 
-        transform.position += myPosition * mySpeed * Time.deltaTime;
+        rb.linearVelocity = new Vector2(myPosition.x * playerSpeed, rb.linearVelocity.y);
 
-        
         if (Input.GetButtonDown("Jump") && groundCheck.isGrounded)
            Jump();
 
@@ -83,73 +84,71 @@ public class PlayerMovement : MonoBehaviour
 
         if ((myPosition.x > 0.2f || myPosition.x < -0.2f) && !isJumping)
         {
-           if (!isHoldingBomb && !isThrowing)
-               anim.Play("Move");
-           else if(!isThrowing)
-               anim.Play("BombWalk");
+            audioSource.clip = footsteps[Random.Range(0, footsteps.Length)];
+            if (!audioSource.isPlaying || audioSource.clip == jumpEndSound)
+            {
+                audioSource.volume = 0.6f;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+    //        audioSource.enabled = true;
+            if (!isHoldingBomb && !isThrowing)
+                anim.Play("Move");
+            else if(!isThrowing)
+                anim.Play("BombWalk");
+        }
+        else if (movementJoystick.Direction.x > 0.01f)
+        {
+            audioSource.clip = footsteps[Random.Range(0, footsteps.Length)];
+            if (!audioSource.isPlaying || audioSource.clip == jumpEndSound)
+            {
+                audioSource.volume = 0.6f;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+            if (!isJumping)
+                if (!isHoldingBomb && !isThrowing)
+                    anim.Play("Move");
+                else if (!isThrowing)
+                    anim.Play("BombWalk");
+
+            rb.linearVelocity = new Vector2(movementJoystick.Direction.x * playerSpeed, rb.linearVelocity.y);
+            sr.flipX = true;
+            ChangePlayerDirectionToRight();
+            playerDirection = true;
+        }
+        else if (movementJoystick.Direction.x < -0.01f)
+        {
+            audioSource.clip = footsteps[Random.Range(0, footsteps.Length)];
+            if (!audioSource.isPlaying || audioSource.clip == jumpEndSound)
+            {
+                audioSource.volume = 0.6f;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+            if (!isJumping)
+                if (!isHoldingBomb && !isThrowing)
+                    anim.Play("Move");
+                else if (!isThrowing)
+                    anim.Play("BombWalk");
+            rb.linearVelocity = new Vector2(movementJoystick.Direction.x * playerSpeed, rb.linearVelocity.y);
+            sr.flipX = false;
+            ChangePlayerDirectionToLeft();
+            playerDirection = false;
         }
         else if(myPosition.x == 0 && !isJumping)
         {
-           if (!isHoldingBomb && !isThrowing)
-               anim.Play("idle_side");
-           else if (!isThrowing)
-               anim.Play("BombHold");
+   //         audioSource.enabled = false;
+            if (!isHoldingBomb && !isThrowing)
+                anim.Play("idle_side");
+            else if (!isThrowing)
+                anim.Play("BombHold");
         }
-
-        //pc end
-              
-
     }
 
     private void FixedUpdate()
     {
-        //if (Input.GetKeyDown(KeyCode.Mouse0) && isHoldingBomb)
-        //    StartCoroutine(Shoot());
-
         if (transform.position.y < fallPosition.y)
             Respawn();
 
-        // if (movementJoystick.Direction.x > 0)
-        // {
-        //     if (!isJumping)
-        //         if (!isHoldingBomb && !isThrowing)
-        //             anim.Play("Move");
-        //         else if (!isThrowing)
-        //             anim.Play("BombWalk");
-
-//mobile
-
-        //     rb.linearVelocity = new Vector2(movementJoystick.Direction.x * playerSpeed, rb.linearVelocity.y);
-        //     sr.flipX = true;
-        //     ChangePlayerDirectionToRight();
-        //     playerDirection = true;
-        // }
-        // else if (movementJoystick.Direction.x < 0)
-        // {
-        //     if (!isJumping)
-        //         if (!isHoldingBomb && !isThrowing)
-        //             anim.Play("Move");
-        //         else if (!isThrowing)
-        //             anim.Play("BombWalk");
-        //     rb.linearVelocity = new Vector2(movementJoystick.Direction.x * playerSpeed, rb.linearVelocity.y);
-        //     sr.flipX = false;
-        //     ChangePlayerDirectionToLeft();
-        //     playerDirection = false;
-        // }
-        // else if(!isJumping)
-        // {
-        //     //rb.velocity = Vector2.zero;
-        //     anim.Play("idle_side");
-        // }
-
-//mobile end
-
-        //if (movementJoystick.Direction.y > 0 && groundCheck.isGrounded)
-        //{
-        //    Jump();
-        //}
-
-        if (Mathf.Abs(rb.linearVelocity.y) < 0.01f)
+        if (Mathf.Abs(rb.linearVelocity.y) < 0.01f && isJumping)
         {
             EndJump();
         }
@@ -167,6 +166,8 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
             anim.Play("Jump");
+            audioSource.volume = 0.5f;
+            audioSource.PlayOneShot(jumpSound);
             /*        mySpeed = 4;*/
         }
     }
@@ -184,6 +185,8 @@ public class PlayerMovement : MonoBehaviour
     private void EndJump()
     {
         isJumping = false;
+        audioSource.volume = 1f;
+        audioSource.PlayOneShot(jumpEndSound);
 /*        mySpeed = 6;*/
     }
 
