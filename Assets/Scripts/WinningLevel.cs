@@ -9,6 +9,8 @@ public class WinningLevel : MonoBehaviour
     {
         if(col.gameObject.name == "Astronaut")
         {
+            print(PlayerPrefs.GetInt("Level" + SceneManager.GetActiveScene().buildIndex, 0));
+            PlayerPrefs.SetInt("Level" + SceneManager.GetActiveScene().buildIndex, 1);
             SceneManager.LoadScene("main");
         }
     }

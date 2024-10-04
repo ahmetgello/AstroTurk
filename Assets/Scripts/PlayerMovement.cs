@@ -166,9 +166,8 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
             anim.Play("Jump");
-            audioSource.volume = 0.5f;
+            audioSource.volume = 0.4f;
             audioSource.PlayOneShot(jumpSound);
-            /*        mySpeed = 4;*/
         }
     }
 
