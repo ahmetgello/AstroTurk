@@ -213,8 +213,7 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(1f);
             isThrowing = false;
 
-            yield return new WaitForSeconds(3f);
-            bombSpawner.SpawnBomb();
+            StartCoroutine(bombSpawner.BombCountDown());
         }
     }
 
