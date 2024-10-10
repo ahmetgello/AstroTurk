@@ -66,8 +66,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && groundCheck.isGrounded)
            Jump();
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && isHoldingBomb)
-           StartCoroutine(Shoot());
+        // if (Input.GetKeyDown(KeyCode.Mouse0) && isHoldingBomb)
+        //    StartCoroutine(Shoot());
 
         if (Input.GetKeyDown(KeyCode.D))
         {
@@ -248,7 +248,19 @@ public class PlayerMovement : MonoBehaviour
             HoldABomb();
             Destroy(col.transform.gameObject);
         }
+        // else if (col.CompareTag("explosion"))
+        // {
+        //     StartCoroutine(LoseSlowly());
+        // }
     }
+
+    // private IEnumerator LoseSlowly()
+    // {
+    //     anim.StopPlayback();
+    //     anim.Play("AstronautLose");
+    //     yield return new WaitForSeconds(0.5f);
+    //     Respawn();
+    // }
 
     void OnCollisionEnter2D(Collision2D col)
     {

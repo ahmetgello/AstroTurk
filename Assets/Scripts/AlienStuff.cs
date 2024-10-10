@@ -24,7 +24,7 @@ public class AlienStuff : MonoBehaviour
         sr.flipX = false;
         while (t < 0.6f)
         {
-            t += Time.deltaTime;
+            t += 0.004f;
             transform.position = Vector3.Lerp(pointA.position, pointB.position, t / 0.6f);
             yield return new WaitForSeconds(0.01f);
         }
@@ -32,7 +32,7 @@ public class AlienStuff : MonoBehaviour
         t = 0;
         while (t < 0.6f)
         {
-            t += Time.deltaTime;
+            t += 0.004f;
             transform.position = Vector3.Lerp(pointB.position, pointA.position, t / 0.6f);
             yield return new WaitForSeconds(0.01f);
         }

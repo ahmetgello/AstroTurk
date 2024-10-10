@@ -1,0 +1,5 @@
+C:/Users/HOME/Desktop/gelo/GD/AstroTurk/.utmp/RelWithDebInfo/512w2z2k/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/HOME/Desktop/gelo/GD/AstroTurk/.utmp/RelWithDebInfo/512w2z2k/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+C:/Users/HOME/Desktop/gelo/GD/AstroTurk/.utmp/RelWithDebInfo/512w2z2k/armeabi-v7a/FramePacing/CMakeFiles/swappywrapper.dir
+C:/Users/HOME/Desktop/gelo/GD/AstroTurk/.utmp/RelWithDebInfo/512w2z2k/armeabi-v7a/FramePacing/CMakeFiles/edit_cache.dir
+C:/Users/HOME/Desktop/gelo/GD/AstroTurk/.utmp/RelWithDebInfo/512w2z2k/armeabi-v7a/FramePacing/CMakeFiles/rebuild_cache.dir

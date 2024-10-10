@@ -8,6 +8,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private ParticleSystem explosionEffect;
+    [SerializeField] private GameObject explosingEffectOnGround;
 
     IEnumerator Start()
     {
@@ -27,6 +28,8 @@ public class Bomb : MonoBehaviour
         explosionEffect.Play(); 
         audioSource.Play();
         anim.Play("Explode");
+        Instantiate(explosingEffectOnGround, new Vector3(transform.position.x, transform.position.y - 1, 0), Quaternion.identity);
+        gameObject.tag = "explosion";
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }

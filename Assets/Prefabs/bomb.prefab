@@ -5012,7 +5012,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &-4001132003152003540
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5074,6 +5074,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   audioSource: {fileID: 0}
   explosionEffect: {fileID: 4321191047783691752}
+  explosingEffectOnGround: {fileID: 1089368312441036303, guid: ebf33c92c89a1fc4cbeb331269db8b92, type: 3}
 --- !u!95 &620507455927689316
 Animator:
   serializedVersion: 7
