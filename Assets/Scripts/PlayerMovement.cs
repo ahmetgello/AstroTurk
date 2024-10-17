@@ -54,7 +54,8 @@ public class PlayerMovement : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
-        bombSpawner.SpawnBomb();
+        if(bombSpawner)
+            bombSpawner.SpawnBomb();
     }
 
     void Update()
